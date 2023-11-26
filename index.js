@@ -86,26 +86,26 @@ async function run() {
     });
 
     // Eron
-    // app.get("/allTurf", async (req, res) => {
-    //   const date = req.query.date;
-    //   let query = {};
-    //   const options = await turfCollection.find(query).toArray();
-    //   const bookingQuery = { bookingDate: date };
-    //   let alreadyBooked = await bookingCollection.find(bookingQuery).toArray();
-    //   const holdData = await holdCollection.find(bookingQuery).toArray();
-    //   alreadyBooked.push(...holdData);
-    //   options.forEach((option) => {
-    //     const optionBooked = alreadyBooked.filter(
-    //       (book) => book.turfName === option.name
-    //     );
-    //     const bookedSlots = optionBooked.map((book) => book.slot);
-    //     const remainingSlots = option.slots.filter(
-    //       (slot) => !bookedSlots.includes(slot)
-    //     );
-    //     option.slots = remainingSlots;
-    //   });
-    //   res.send(options);
-    // });
+    app.get("/allTurf", async (req, res) => {
+      const date = req.query.date;
+      let query = {};
+      const options = await turfCollection.find(query).toArray();
+      const bookingQuery = { bookingDate: date };
+      let alreadyBooked = await bookingCollection.find(bookingQuery).toArray();
+      const holdData = await holdCollection.find(bookingQuery).toArray();
+      alreadyBooked.push(...holdData);
+      options.forEach((option) => {
+        const optionBooked = alreadyBooked.filter(
+          (book) => book.turfName === option.name
+        );
+        const bookedSlots = optionBooked.map((book) => book.slot);
+        const remainingSlots = option.slots.filter(
+          (slot) => !bookedSlots.includes(slot)
+        );
+        option.slots = remainingSlots;
+      });
+      res.send(options);
+    });
     // search by name start-->
     app.get("/searchTurf", async (req, res) => {
       const date = req.query.date;
@@ -160,49 +160,49 @@ async function run() {
       res.send(options);
     });
     // search by location end--->
-    // app.post("/booking", async (req, res) => {
-    //   const data = req.body;
-    //   const result = await bookingCollection.insertOne(data);
-    //   res.send(result);
-    //   console.log(result);
-    // });
+    app.post("/booking", async (req, res) => {
+      const data = req.body;
+      const result = await bookingCollection.insertOne(data);
+      res.send(result);
+      console.log(result);
+    });
 
-    // // hold start-->
-    // app.post("/hold", async (req, res) => {
-    //   const data = req.body;
-    //   data.createdAt = new Date();
+    // hold start-->
+    app.post("/hold", async (req, res) => {
+      const data = req.body;
+      data.createdAt = new Date();
 
-    //   const result = await holdCollection.insertOne(data);
-    //   cleanupJob.start();
+      const result = await holdCollection.insertOne(data);
+      cleanupJob.start();
 
-    //   res.send(result);
-    // });
-    // const cleanupJob = cron.schedule(
-    //   "*/1 * * * *",
-    //   async () => {
-    //     const thirtySecondsAgo = new Date();
-    //     thirtySecondsAgo.setSeconds(thirtySecondsAgo.getSeconds() - 30);
+      res.send(result);
+    });
+    const cleanupJob = cron.schedule(
+      "*/1 * * * *",
+      async () => {
+        const thirtySecondsAgo = new Date();
+        thirtySecondsAgo.setSeconds(thirtySecondsAgo.getSeconds() - 30);
 
-    //     try {
-    //       // Find and remove documents older than 30 seconds
-    //       const result = await holdCollection.deleteMany({
-    //         createdAt: { $lt: thirtySecondsAgo },
-    //       });
-    //       console.log(`${result.deletedCount} document(s) deleted.`);
-    //     } catch (error) {
-    //       console.error("Error deleting documents:", error);
-    //     }
-    //   },
-    //   {
-    //     scheduled: false, // The job will not run immediately after scheduling
-    //   }
-    // );
+        try {
+          // Find and remove documents older than 30 seconds
+          const result = await holdCollection.deleteMany({
+            createdAt: { $lt: thirtySecondsAgo },
+          });
+          console.log(`${result.deletedCount} document(s) deleted.`);
+        } catch (error) {
+          console.error("Error deleting documents:", error);
+        }
+      },
+      {
+        scheduled: false, // The job will not run immediately after scheduling
+      }
+    );
 
-    // app.get("/booking", async (req, res) => {
-    //   let query = {};
-    //   const result = await bookingCollection.find(query).toArray();
-    //   res.send(result);
-    // });
+    app.get("/booking", async (req, res) => {
+      let query = {};
+      const result = await bookingCollection.find(query).toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
