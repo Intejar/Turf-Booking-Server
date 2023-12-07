@@ -25,6 +25,12 @@ async function run() {
     const turfCollection = client.db("Turf").collection("TurfInfo");
     const bookingCollection = client.db("Turf").collection("booking");
     const holdCollection = client.db("Turf").collection("hold");
+    const shopCollection = client.db("Turf").collection("Shop");
+    const advertisedCollection = client.db("Turf").collection("advertise");
+    const shopOrderCollection = client.db("Turf").collection("ShopOrder");
+    const customOrderCollection = client.db("Turf").collection("customOrder");
+    const wishlistCollection = client.db("Turf").collection("wishList");
+
     app.get("/users", async (req, res) => {
       let query = {};
       if (req.query.email) {
@@ -256,6 +262,247 @@ async function run() {
       const result = await bookingCollection.find(query).toArray();
       res.send(result);
     });
+
+    // app.get("/advertise", async (req, res) => {
+    //   let query = {};
+    //   if (req.query.productId) {
+    //     query = { productId: req.query.productId };
+    //   }
+    //   const result = await advertisedCollection.find(query).toArray();
+    //   res.send(result);
+    // });
+    // app.post("/advertise", async (req, res) => {
+    //   const wishList = req.body;
+    //   const result = await advertisedCollection.insertOne(wishList);
+    //   console.log(result);
+    //   res.send(result);
+    // });
+    // app.delete("/advertise/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { productId: id };
+    //   const result = await advertisedCollection.deleteOne(query);
+    //   res.send(result);
+    // });
+
+    // app.get("/turfCollection", async (req, res) => {
+    //   let query = {};
+    //   const result = await turfCollection.find(query).toArray();
+    //   res.send(result);
+    // });
+    // app.get("/turfCollection/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await turfCollection.findOne(query);
+    //   console.log(result);
+    //   res.send(result);
+    // });
+
+    // app.patch("/turfCollection/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   let query = {};
+    //   const options = { upsert: true };
+    //   let updatedDoc = {
+    //     $set: {},
+    //   };
+    //   if (req.body.data) {
+    //     console.log(req.body.data);
+    //     query = { _id: new ObjectId(id) };
+    //     updatedDoc = {
+    //       $set: {
+    //         discount: req.body.data.discount,
+    //         promo: req.body.data.promo,
+    //       },
+    //     };
+    //   }
+    //   if (req.body.advertise) {
+    //     query = { _id: new ObjectId(id) };
+
+    //     updatedDoc = {
+    //       $set: {
+    //         advertise: req.body.advertise,
+    //       },
+    //     };
+    //   }
+    //   const result = await turfCollection.updateOne(query, updatedDoc, options);
+    //   res.send(result);
+    //   console.log(result);
+    // });
+    // app.delete("/turfCollection/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await turfCollection.deleteOne(query);
+    //   res.send(result);
+    // });
+
+    // // Suraiya
+    // /* display all shop product */
+    // app.get("/shop", async (req, res) => {
+    //   let query = {};
+    //   if (req.query.email) {
+    //     query = { email: req.query.email };
+    //   }
+    //   const result = await shopCollection.find(query).toArray();
+    //   res.send(result);
+    // });
+    // /* display specific id product to show specific info of a product in cart */
+    // app.get("/shop/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await shopCollection.findOne(query);
+    //   console.log(result);
+    //   res.send(result);
+    // });
+    // /* insert shop data */
+    // app.post("/shop", async (req, res) => {
+    //   const data = req.body;
+    //   const result = await shopCollection.insertOne(data);
+    //   cleanupJob.start();
+
+    //   res.send(result);
+    // });
+    // /* update shop product info */
+    // app.patch("/shop/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   let query = {};
+    //   const options = { upsert: true };
+    //   let updatedDoc = {
+    //     $set: {},
+    //   };
+    //   if (req.body.data) {
+    //     console.log(req.body.data);
+    //     query = { _id: new ObjectId(id) };
+    //     updatedDoc = {
+    //       $set: {
+    //         description: req.body.data.description,
+    //         productPrice: req.body.data.productPrice,
+    //         stock: req.body.data.stock,
+    //       },
+    //     };
+    //   }
+    //   if (req.body.advertise) {
+    //     query = { _id: new ObjectId(id) };
+
+    //     updatedDoc = {
+    //       $set: {
+    //         advertise: req.body.advertise,
+    //       },
+    //     };
+    //   }
+    //   if (req.body.stock !== undefined) {
+    //     query = { _id: new ObjectId(id) };
+    //     if (req.body.stock === 0) {
+    //       updatedDoc = {
+    //         $set: {
+    //           stock: "0",
+    //         },
+    //       };
+    //     } else {
+    //       updatedDoc = {
+    //         $set: {
+    //           stock: req.body.stock,
+    //         },
+    //       };
+    //     }
+    //   }
+    //   const result = await shopCollection.updateOne(query, updatedDoc, options);
+    //   res.send(result);
+    //   console.log(result);
+    // });
+
+    // app.delete("/shop/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await shopCollection.deleteOne(query);
+    //   res.send(result);
+    // });
+    // /* search by name */
+    // app.get("/searchProduct", async (req, res) => {
+    //   const name = req.query.name;
+    //   const upperCase = name.toUpperCase();
+    //   let query = {
+    //     // name: { $regex: new RegExp(upperCase, "i") },
+    //     productName: upperCase,
+    //   };
+    //   const options = await shopCollection.find(query).toArray();
+    //   res.send(options);
+    // });
+    // /* search by category */
+    // app.get("/searchProductCategory", async (req, res) => {
+    //   const category = req.query.category;
+    //   let query = {
+    //     category: category,
+    //   };
+    //   const options = await shopCollection.find(query).toArray();
+    //   res.send(options);
+    // });
+    // /* get ordered product */
+    // app.get("/shopOrder", async (req, res) => {
+    //   let query = {};
+    //   if (req.query.email) {
+    //     query = { email: req.query.email };
+    //   }
+    //   const result = await shopOrderCollection.find(query).toArray();
+    //   res.send(result);
+    // });
+    // /* insert a order */
+    // app.post("/shopOrder", async (req, res) => {
+    //   const data = req.body;
+    //   const result = await shopOrderCollection.insertOne(data);
+    //   res.send(result);
+    // });
+    // /* get specific ordered data */
+    // app.delete("/shopOrder/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await shopOrderCollection.deleteOne(query);
+    //   res.send(result);
+    // });
+    // /* get customer data */
+    // app.get("/customOrder", async (req, res) => {
+    //   let query = {};
+    //   if (req.query.email) {
+    //     query = { email: req.query.email };
+    //   }
+    //   const result = await customOrderCollection.find(query).toArray();
+    //   res.send(result);
+    // });
+    // /* insert cutomer order data */
+    // app.post("/customOrder", async (req, res) => {
+    //   const data = req.body;
+    //   const result = await customOrderCollection.insertOne(data);
+    //   res.send(result);
+    // });
+    // /* update customer order data */
+    // app.patch("/customOrder/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   let query = {};
+    //   const options = { upsert: true };
+    //   let updatedDoc = {
+    //     $set: {},
+    //   };
+    //   if (req.body.approval) {
+    //     query = { _id: new ObjectId(id) };
+    //     updatedDoc = {
+    //       $set: {
+    //         approval: req.body.approval,
+    //       },
+    //     };
+    //   }
+
+    //   const result = await customOrderCollection.updateOne(
+    //     query,
+    //     updatedDoc,
+    //     options
+    //   );
+    //   res.send(result);
+    //   console.log(result);
+    // });
+    // app.delete("/customOrder/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await customOrderCollection.deleteOne(query);
+    //   res.send(result);
+    // });
   } finally {
   }
 }
