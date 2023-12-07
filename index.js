@@ -263,76 +263,76 @@ async function run() {
       res.send(result);
     });
 
-    // app.get("/advertise", async (req, res) => {
-    //   let query = {};
-    //   if (req.query.productId) {
-    //     query = { productId: req.query.productId };
-    //   }
-    //   const result = await advertisedCollection.find(query).toArray();
-    //   res.send(result);
-    // });
-    // app.post("/advertise", async (req, res) => {
-    //   const wishList = req.body;
-    //   const result = await advertisedCollection.insertOne(wishList);
-    //   console.log(result);
-    //   res.send(result);
-    // });
-    // app.delete("/advertise/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { productId: id };
-    //   const result = await advertisedCollection.deleteOne(query);
-    //   res.send(result);
-    // });
+    app.get("/advertise", async (req, res) => {
+      let query = {};
+      if (req.query.productId) {
+        query = { productId: req.query.productId };
+      }
+      const result = await advertisedCollection.find(query).toArray();
+      res.send(result);
+    });
+    app.post("/advertise", async (req, res) => {
+      const wishList = req.body;
+      const result = await advertisedCollection.insertOne(wishList);
+      console.log(result);
+      res.send(result);
+    });
+    app.delete("/advertise/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { productId: id };
+      const result = await advertisedCollection.deleteOne(query);
+      res.send(result);
+    });
 
-    // app.get("/turfCollection", async (req, res) => {
-    //   let query = {};
-    //   const result = await turfCollection.find(query).toArray();
-    //   res.send(result);
-    // });
-    // app.get("/turfCollection/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: new ObjectId(id) };
-    //   const result = await turfCollection.findOne(query);
-    //   console.log(result);
-    //   res.send(result);
-    // });
+    app.get("/turfCollection", async (req, res) => {
+      let query = {};
+      const result = await turfCollection.find(query).toArray();
+      res.send(result);
+    });
+    app.get("/turfCollection/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await turfCollection.findOne(query);
+      console.log(result);
+      res.send(result);
+    });
 
-    // app.patch("/turfCollection/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   let query = {};
-    //   const options = { upsert: true };
-    //   let updatedDoc = {
-    //     $set: {},
-    //   };
-    //   if (req.body.data) {
-    //     console.log(req.body.data);
-    //     query = { _id: new ObjectId(id) };
-    //     updatedDoc = {
-    //       $set: {
-    //         discount: req.body.data.discount,
-    //         promo: req.body.data.promo,
-    //       },
-    //     };
-    //   }
-    //   if (req.body.advertise) {
-    //     query = { _id: new ObjectId(id) };
+    app.patch("/turfCollection/:id", async (req, res) => {
+      const id = req.params.id;
+      let query = {};
+      const options = { upsert: true };
+      let updatedDoc = {
+        $set: {},
+      };
+      if (req.body.data) {
+        console.log(req.body.data);
+        query = { _id: new ObjectId(id) };
+        updatedDoc = {
+          $set: {
+            discount: req.body.data.discount,
+            promo: req.body.data.promo,
+          },
+        };
+      }
+      if (req.body.advertise) {
+        query = { _id: new ObjectId(id) };
 
-    //     updatedDoc = {
-    //       $set: {
-    //         advertise: req.body.advertise,
-    //       },
-    //     };
-    //   }
-    //   const result = await turfCollection.updateOne(query, updatedDoc, options);
-    //   res.send(result);
-    //   console.log(result);
-    // });
-    // app.delete("/turfCollection/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: new ObjectId(id) };
-    //   const result = await turfCollection.deleteOne(query);
-    //   res.send(result);
-    // });
+        updatedDoc = {
+          $set: {
+            advertise: req.body.advertise,
+          },
+        };
+      }
+      const result = await turfCollection.updateOne(query, updatedDoc, options);
+      res.send(result);
+      console.log(result);
+    });
+    app.delete("/turfCollection/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await turfCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // // Suraiya
     // /* display all shop product */
