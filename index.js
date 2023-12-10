@@ -286,6 +286,11 @@ async function run() {
 
     app.get("/turfCollection", async (req, res) => {
       let query = {};
+      if (req.query.name) {
+        query = {
+          name: req.query.name,
+        };
+      }
       const result = await turfCollection.find(query).toArray();
       res.send(result);
     });
