@@ -356,7 +356,7 @@ async function run() {
     app.post("/shop", async (req, res) => {
       const data = req.body;
       const result = await shopCollection.insertOne(data);
-      cleanupJob.start();
+      
 
       res.send(result);
     });
